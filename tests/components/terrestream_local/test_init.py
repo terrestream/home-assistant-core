@@ -5,6 +5,8 @@ from unittest.mock import MagicMock, call, patch
 
 import pytest
 
+from homeassistant.config_entries import ConfigEntryState
+from homeassistant.const import Platform
 from homeassistant.core import HomeAssistant
 
 from tests.common import MockConfigEntry
@@ -49,3 +51,21 @@ async def test_setup_cancellation_releases_lease(
     mock_client.command.assert_any_await("release")
     assert mock_client.command.await_args == call("release")
     assert not hass.states.async_all("sensor")
+
+
+async def test_failed_platform_unload_keeps_lease(
+    hass: HomeAssistant, config_entry: MockConfigEntry, mock_client: MagicMock
+) -> None:
+    """Do not release ownership while entities have refused to unload."""
+    assert await hass.config_entries.async_setup(config_entry.entry_id)
+    await hass.async_block_till_done()
+    mock_client.command.reset_mock()
+    with patch(
+        "homeassistant.config_entries.ConfigEntries.async_unload_platforms",
+        return_value=False,
+    ):
+        assert not await hass.config_entries.async_unload(config_entry.entry_id)
+    mock_client.command.assert_not_awaited()
+    assert config_entry.state is ConfigEntryState.FAILED_UNLOAD
+    await hass.config_entries.async_unload_platforms(config_entry, [Platform.SENSOR])
+    await config_entry.runtime_data.async_release()

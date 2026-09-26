@@ -1,13 +1,42 @@
 {
   "config": {
     "abort": {
-      "already_configured": "This sensor is already configured."
+      "already_configured": "This sensor is already configured.",
+      "cannot_connect": "Could not authenticate the sensor at its advertised address. Its saved address has not changed.",
+      "invalid_discovery": "The sensor announcement has no valid device identity. Add the integration manually.",
+      "reauth_successful": "Pairing renewed. Your existing entities and settings are preserved.",
+      "reconfigure_successful": "Sensor address updated.",
+      "wrong_device": "This is a different sensor. Pair the sensor originally configured in this entry."
     },
     "error": {
+      "address_auth_failed": "The address did not authenticate as the original sensor. Check the address, or renew pairing if its credentials were revoked.",
       "cannot_connect": "Cannot connect. Check the address, Wi-Fi connection, and pairing window.",
       "invalid_auth": "Pairing failed. Check the displayed code and try again."
     },
+    "flow_title": "{name}",
     "step": {
+      "reauth_confirm": {
+        "data": {
+          "code": "Pairing code",
+          "host": "IP address or hostname"
+        },
+        "data_description": {
+          "code": "Enter all eight digits, including any leading zeros.",
+          "host": "The sensor must be reachable from Home Assistant over the local network. Do not include a port or URL."
+        },
+        "description": "On the original sensor, open Setup → Home Assistant, disconnect the old pairing, then tap Pair. Enter its current address and new eight-digit code. Keep this integration entry to preserve its entities and settings.",
+        "title": "Renew pairing"
+      },
+      "reconfigure": {
+        "data": {
+          "host": "IP address or hostname"
+        },
+        "data_description": {
+          "host": "The sensor must be reachable from Home Assistant over the local network. Do not include a port or URL."
+        },
+        "description": "Enter the original sensor’s new address. Its identity and saved certificate will be checked before saving.",
+        "title": "Change sensor address"
+      },
       "user": {
         "data": {
           "code": "Pairing code",
@@ -17,7 +46,7 @@
           "code": "Enter all eight digits, including any leading zeros.",
           "host": "The sensor must be reachable from Home Assistant over the local network. Do not include a port or URL."
         },
-        "description": "On the sensor, open Setup \u2192 Home Assistant \u2192 Pair. Enter its local address and the eight-digit code shown on its display. The code expires after two minutes.",
+        "description": "On the sensor, open Setup → Home Assistant → Pair. Enter its local address and the eight-digit code shown on its display. The code expires after two minutes.",
         "title": "Connect your Terrestream"
       }
     }
@@ -67,7 +96,13 @@
       "message": "The sensor is unavailable. Check its network connection and allow any maintenance to finish."
     },
     "pairing_revoked": {
-      "message": "Pairing is no longer valid. In Home Assistant, remove this sensor's integration entry. On the sensor, open Setup → Home Assistant, disconnect the old pairing, then tap Pair. Add the integration again using the new code."
+      "message": "Pairing is no longer valid. Use the Home Assistant repair notification to renew pairing with the original sensor."
+    }
+  },
+  "issues": {
+    "preferences_storage": {
+      "description": "The sensor reports a settings-storage error. Allow any firmware update to finish, then restart the sensor once and check whether its settings persist. If the warning remains, contact support@terrestream.com. Avoid a factory reset, which removes the saved configuration.",
+      "title": "{name} could not save its settings"
     }
   }
 }

@@ -1050,6 +1050,11 @@ ZEROCONF = {
             "domain": "technove",
         },
     ],
+    "_terrestream._tcp.local.": [
+        {
+            "domain": "terrestream_local",
+        },
+    ],
     "_touch-able._tcp.local.": [
         {
             "domain": "apple_tv",

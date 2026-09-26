@@ -29,20 +29,22 @@ rules:
   test-before-configure: done
   test-before-setup: done
   unique-config-entry: done
-  action-exceptions: todo
-  config-entry-unloading: todo
+  action-exceptions:
+    status: exempt
+    comment: The sensor-only integration registers no custom actions.
+  config-entry-unloading: done
   docs-configuration-parameters: todo
   docs-installation-parameters: todo
-  entity-unavailable: todo
-  integration-owner: todo
-  log-when-unavailable: todo
-  parallel-updates: todo
-  reauthentication-flow: todo
-  test-coverage: todo
-  devices: todo
-  diagnostics: todo
-  discovery: todo
-  discovery-update-info: todo
+  entity-unavailable: done
+  integration-owner: done
+  log-when-unavailable: done
+  parallel-updates: done
+  reauthentication-flow: done
+  test-coverage: done
+  devices: done
+  diagnostics: done
+  discovery: done
+  discovery-update-info: done
   docs-data-update: todo
   docs-examples: todo
   docs-known-limitations: todo
@@ -50,16 +52,22 @@ rules:
   docs-supported-functions: todo
   docs-troubleshooting: todo
   docs-use-cases: todo
-  dynamic-devices: todo
-  entity-category: todo
-  entity-device-class: todo
-  entity-disabled-by-default: todo
-  entity-translations: todo
-  exception-translations: todo
-  icon-translations: todo
-  reconfiguration-flow: todo
-  repair-issues: todo
-  stale-devices: todo
+  dynamic-devices:
+    status: exempt
+    comment: Each entry represents one physical sensor with a fixed measurement set.
+  entity-category: done
+  entity-device-class: done
+  entity-disabled-by-default:
+    status: done
+    comment: All twelve entities are primary product measurements; no diagnostic counters or duplicate estimates are created.
+  entity-translations: done
+  exception-translations: done
+  icon-translations: done
+  reconfiguration-flow: done
+  repair-issues: done
+  stale-devices:
+    status: exempt
+    comment: Each entry represents one physical sensor; removing the entry removes its device.
   async-dependency: todo
   inject-websession: todo
   strict-typing: todo

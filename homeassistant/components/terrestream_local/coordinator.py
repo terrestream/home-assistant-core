@@ -12,6 +12,7 @@ from terrestream_local.models import Snapshot
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import ConfigEntryAuthFailed
+from homeassistant.helpers import issue_registry as ir
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import DOMAIN
@@ -36,6 +37,11 @@ class TerrestreamCoordinator(DataUpdateCoordinator[Snapshot]):
         )
         self.client = client
         self._next_clock = 0.0
+        self._storage_issue_id = f"{entry.entry_id}_storage"
+        self._entry_title = entry.title
+        entry.async_on_unload(
+            lambda: ir.async_delete_issue(hass, DOMAIN, self._storage_issue_id)
+        )
 
     @override
     async def _async_update_data(self) -> Snapshot:
@@ -54,6 +60,19 @@ class TerrestreamCoordinator(DataUpdateCoordinator[Snapshot]):
             raise UpdateFailed(
                 translation_domain=DOMAIN, translation_key="cannot_connect"
             ) from err
+        storage_ok = data.get("health", {}).get("preferences_storage_ok")
+        if storage_ok is False:
+            ir.async_create_issue(
+                self.hass,
+                DOMAIN,
+                self._storage_issue_id,
+                is_fixable=False,
+                severity=ir.IssueSeverity.WARNING,
+                translation_key="preferences_storage",
+                translation_placeholders={"name": self._entry_title},
+            )
+        elif storage_ok is True:
+            ir.async_delete_issue(self.hass, DOMAIN, self._storage_issue_id)
         return data
 
     async def async_release(self) -> None:
