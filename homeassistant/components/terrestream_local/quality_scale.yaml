@@ -68,6 +68,12 @@ rules:
   stale-devices:
     status: exempt
     comment: Each entry represents one physical sensor; removing the entry removes its device.
-  async-dependency: todo
-  inject-websession: todo
-  strict-typing: todo
+  async-dependency:
+    status: done
+    comment: The client uses asyncio and aiohttp; pairing computation runs in a worker thread.
+  inject-websession:
+    status: done
+    comment: The client and pairing flow use the aiohttp session provided by Home Assistant.
+  strict-typing:
+    status: done
+    comment: Strict checks cover the integration; the typed client includes py.typed and entries use TerrestreamConfigEntry.

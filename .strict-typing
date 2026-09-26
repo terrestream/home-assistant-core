@@ -600,6 +600,7 @@ homeassistant.components.tedee.*
 homeassistant.components.telegram_bot.*
 homeassistant.components.teleinfo.*
 homeassistant.components.teltonika.*
+homeassistant.components.terrestream_local.*
 homeassistant.components.teslemetry.*
 homeassistant.components.text.*
 homeassistant.components.thethingsnetwork.*
