@@ -1,7 +1,9 @@
 """Expose support diagnostics without credentials, addresses, or measurements."""
 
 import re
-from typing import Any
+from typing import Any, cast
+
+from terrestream_local.models import Snapshot
 
 from homeassistant.core import HomeAssistant
 
@@ -14,7 +16,14 @@ async def async_get_config_entry_diagnostics(
 ) -> dict[str, Any]:
     """Export only fixed status labels and a numeric firmware version."""
     coordinator = entry.runtime_data
-    data = coordinator.data
+    # Coordinator data is unset until its first successful refresh.
+    data = cast(Snapshot | None, coordinator.data)
+    if data is None:
+        return {
+            "firmware": "unknown",
+            "last_update_success": False,
+            "measurement_status": {},
+        }
     firmware = data.get("firmware", "")
     return {
         "firmware": firmware
