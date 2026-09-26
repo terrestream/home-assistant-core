@@ -1,8 +1,79 @@
 {
   "entity": {
+    "number": {
+      "display_brightness": {
+        "default": "mdi:brightness-6"
+      },
+      "quiet_display": {
+        "default": "mdi:brightness-4"
+      },
+      "quiet_ring": {
+        "default": "mdi:circle-outline"
+      },
+      "quiet_volume": {
+        "default": "mdi:volume-low"
+      },
+      "ring_brightness": {
+        "default": "mdi:circle-outline"
+      },
+      "volume": {
+        "default": "mdi:volume-high"
+      }
+    },
+    "select": {
+      "index_mode": {
+        "default": "mdi:air-filter"
+      },
+      "locale": {
+        "default": "mdi:translate"
+      },
+      "voc_mode": {
+        "default": "mdi:molecule"
+      }
+    },
     "sensor": {
-      "nox_index": { "default": "mdi:molecule" },
-      "voc_index": { "default": "mdi:molecule" }
+      "nox_index": {
+        "default": "mdi:molecule"
+      },
+      "voc_index": {
+        "default": "mdi:molecule"
+      }
+    },
+    "switch": {
+      "auto_brightness": {
+        "default": "mdi:brightness-auto"
+      },
+      "dark_mode": {
+        "default": "mdi:theme-light-dark"
+      },
+      "fahrenheit": {
+        "default": "mdi:temperature-fahrenheit"
+      },
+      "notification_sounds": {
+        "default": "mdi:bell-ring"
+      },
+      "quiet_hours": {
+        "default": "mdi:weather-night"
+      },
+      "time_24h": {
+        "default": "mdi:clock-outline"
+      },
+      "ui_sounds": {
+        "default": "mdi:gesture-tap"
+      }
+    },
+    "text": {
+      "timezone": {
+        "default": "mdi:map-clock"
+      }
+    },
+    "time": {
+      "quiet_end": {
+        "default": "mdi:clock-end"
+      },
+      "quiet_start": {
+        "default": "mdi:clock-start"
+      }
     }
   }
 }

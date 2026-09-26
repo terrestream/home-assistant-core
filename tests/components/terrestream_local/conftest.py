@@ -67,6 +67,8 @@ def mock_client() -> Generator[MagicMock]:
                 "model": "R500",
                 "firmware": "4.1.0",
                 "hardware": "test",
+                "settings": {},
+                "capabilities": {"settings": {}},
                 "measurements": {
                     key: {"value": value, "available": True, "status": "valid"}
                     for key, value in values.items()

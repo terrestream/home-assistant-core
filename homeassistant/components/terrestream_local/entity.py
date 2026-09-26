@@ -2,6 +2,7 @@
 
 from typing import override
 
+from homeassistant.const import EntityCategory
 from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
@@ -33,4 +34,19 @@ class Entity(CoordinatorEntity[Coordinator]):
             sw_version=d["firmware"],
             hw_version=d.get("hardware"),
             name="Terrestream Indoor Air Quality sensor",
+        )
+
+
+class SettingEntity(Entity):
+    """A device preference confirmed by the latest successful poll."""
+
+    _attr_entity_category = EntityCategory.CONFIG
+
+    @property
+    @override
+    def available(self) -> bool:
+        """Hide controls whose capability is no longer advertised."""
+        return (
+            super().available
+            and self.key in self.coordinator.data["capabilities"]["settings"]
         )

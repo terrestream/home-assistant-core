@@ -1,5 +1,6 @@
 """Retrieve local measurements and maintain the controller lease."""
 
+import asyncio
 from datetime import timedelta
 import logging
 import time
@@ -11,7 +12,7 @@ from terrestream_local.models import Snapshot
 
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
-from homeassistant.exceptions import ConfigEntryAuthFailed
+from homeassistant.exceptions import ConfigEntryAuthFailed, HomeAssistantError
 from homeassistant.helpers import issue_registry as ir
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -36,6 +37,7 @@ class TerrestreamCoordinator(DataUpdateCoordinator[Snapshot]):
             update_interval=timedelta(seconds=5),
         )
         self.client = client
+        self._command_lock = asyncio.Lock()
         self._next_clock = 0.0
         self._storage_issue_id = f"{entry.entry_id}_storage"
         self._entry_title = entry.title
@@ -74,6 +76,33 @@ class TerrestreamCoordinator(DataUpdateCoordinator[Snapshot]):
         elif storage_ok is True:
             ir.async_delete_issue(self.hass, DOMAIN, self._storage_issue_id)
         return data
+
+    async def async_set_setting(self, key: str, value: int | str) -> None:
+        """Apply a preference and read back device-confirmed state."""
+        async with self._command_lock:
+            try:
+                await self.client.command("set", key=key, value=value)
+            except AuthenticationError as err:
+                self.async_set_update_error(err)
+                assert self.config_entry is not None
+                self.config_entry.async_start_reauth(self.hass)
+                raise HomeAssistantError(
+                    translation_domain=DOMAIN, translation_key="pairing_revoked"
+                ) from err
+            except ClientError as err:
+                error = str(err)
+                raise HomeAssistantError(
+                    translation_domain=DOMAIN,
+                    translation_key=error
+                    if error in {"busy", "revision_conflict", "storage_failure"}
+                    else "command_failed",
+                ) from err
+            # Bypass refresh debouncing so the action waits for its readback.
+            await self.async_refresh()
+            if not self.last_update_success:
+                raise HomeAssistantError(
+                    translation_domain=DOMAIN, translation_key="readback_failed"
+                )
 
     async def async_release(self) -> None:
         """Release the lease after stopping polling; offline leases expire."""

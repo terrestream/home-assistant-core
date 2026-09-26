@@ -13,7 +13,14 @@ from .const import DOMAIN
 from .coordinator import TerrestreamConfigEntry, TerrestreamCoordinator
 
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
-PLATFORMS = [Platform.SENSOR]
+PLATFORMS = [
+    Platform.NUMBER,
+    Platform.SELECT,
+    Platform.SENSOR,
+    Platform.SWITCH,
+    Platform.TEXT,
+    Platform.TIME,
+]
 
 
 async def async_setup_entry(hass: HomeAssistant, entry: TerrestreamConfigEntry) -> bool:

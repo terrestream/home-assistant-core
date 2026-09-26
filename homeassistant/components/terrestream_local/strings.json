@@ -52,6 +52,50 @@
     }
   },
   "entity": {
+    "number": {
+      "display_brightness": {
+        "name": "Display brightness"
+      },
+      "quiet_display": {
+        "name": "Quiet display brightness"
+      },
+      "quiet_ring": {
+        "name": "Quiet ring brightness"
+      },
+      "quiet_volume": {
+        "name": "Quiet speaker volume"
+      },
+      "ring_brightness": {
+        "name": "Ring brightness"
+      },
+      "volume": {
+        "name": "Speaker volume"
+      }
+    },
+    "select": {
+      "index_mode": {
+        "name": "Display air index",
+        "state": {
+          "aqhi_plus": "AQHI+",
+          "epa_aqi": "EPA AQI"
+        }
+      },
+      "locale": {
+        "name": "Device language",
+        "state": {
+          "en": "English",
+          "fr_ca": "French (Canada)"
+        }
+      },
+      "voc_mode": {
+        "name": "VOC presentation",
+        "state": {
+          "reset": "RESET",
+          "voc_index": "VOC index",
+          "well": "WELL"
+        }
+      }
+    },
     "sensor": {
       "co2": {
         "name": "Carbon dioxide"
@@ -89,14 +133,74 @@
       "voc_index": {
         "name": "VOC index"
       }
+    },
+    "switch": {
+      "auto_brightness": {
+        "name": "Automatic brightness"
+      },
+      "dark_mode": {
+        "name": "Dark theme"
+      },
+      "fahrenheit": {
+        "name": "Fahrenheit display"
+      },
+      "notification_sounds": {
+        "name": "Notification sounds"
+      },
+      "quiet_hours": {
+        "name": "Quiet hours"
+      },
+      "time_24h": {
+        "name": "24-hour clock"
+      },
+      "ui_sounds": {
+        "name": "Touch sounds"
+      }
+    },
+    "text": {
+      "timezone": {
+        "name": "Device time zone"
+      }
+    },
+    "time": {
+      "quiet_end": {
+        "name": "Quiet hours end"
+      },
+      "quiet_start": {
+        "name": "Quiet hours start"
+      }
     }
   },
   "exceptions": {
+    "busy": {
+      "message": "The sensor is busy. Allow maintenance to finish, then try again."
+    },
     "cannot_connect": {
       "message": "The sensor is unavailable. Check its network connection and allow any maintenance to finish."
     },
+    "command_failed": {
+      "message": "The sensor could not apply this setting. Check its connection and try again."
+    },
+    "invalid_timezone": {
+      "message": "Enter a valid IANA time zone, such as Europe/London."
+    },
+    "minute_precision": {
+      "message": "Enter a time with zero seconds and no time zone. Quiet hours use the sensor’s time zone."
+    },
     "pairing_revoked": {
       "message": "Pairing is no longer valid. Use the Home Assistant repair notification to renew pairing with the original sensor."
+    },
+    "readback_failed": {
+      "message": "The setting was sent, but its current value could not be confirmed. Wait for the sensor to reconnect before retrying."
+    },
+    "revision_conflict": {
+      "message": "Settings changed on the sensor before this request was applied. Wait for the controls to refresh, then try again."
+    },
+    "storage_failure": {
+      "message": "The sensor could not save the setting. Check its settings-storage repair notification."
+    },
+    "whole_number": {
+      "message": "Enter a whole number."
     }
   },
   "issues": {

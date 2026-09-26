@@ -1,7 +1,7 @@
 rules:
   action-setup:
     status: exempt
-    comment: The initial sensor platform defines no custom actions.
+    comment: The integration uses standard entity actions.
   appropriate-polling: done
   brands:
     status: todo
@@ -29,9 +29,7 @@ rules:
   test-before-configure: done
   test-before-setup: done
   unique-config-entry: done
-  action-exceptions:
-    status: exempt
-    comment: The sensor-only integration registers no custom actions.
+  action-exceptions: done
   config-entry-unloading: done
   docs-configuration-parameters: todo
   docs-installation-parameters: todo
@@ -59,7 +57,7 @@ rules:
   entity-device-class: done
   entity-disabled-by-default:
     status: done
-    comment: All twelve entities are primary product measurements; no diagnostic counters or duplicate estimates are created.
+    comment: Measurements and supported configuration controls are enabled; no diagnostic counters or duplicate estimates are created.
   entity-translations: done
   exception-translations: done
   icon-translations: done
